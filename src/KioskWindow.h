@@ -1,7 +1,7 @@
 #ifndef KIOSK_WINDOW_H
 #define KIOSK_WINDOW_H
 
-#include <QMainWindow>
+#include <QWidget>
 #include <QtWebEngineCore>
 
 #include "KioskSettings.h"
@@ -9,9 +9,9 @@
 class Kiosk;
 class KioskProgress;
 class KioskView;
-class QLabel;
+class Blanking;
 
-class KioskWindow : public QMainWindow
+class KioskWindow : public QWidget
 {
     Q_OBJECT
 
@@ -43,8 +43,8 @@ private:
     Kiosk *kiosk_;
     const KioskSettings *settings_;
 
-    KioskProgress *progress_;
-    QLabel *blank_;
+//    KioskProgress *progress_;
+//    Blanking *blank_;
     KioskView *view_;
 
     bool showingBrowser_;

@@ -20,6 +20,7 @@ public:
     void playSound(const QUrl &sound);
 
 protected:
+    bool eventFilter(QObject *object, QEvent *event);
     void mousePressEvent(QMouseEvent *event);
 
 private slots:

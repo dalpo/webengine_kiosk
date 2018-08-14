@@ -43,6 +43,7 @@
 
 #include "Kiosk.h"
 #include "KioskSettings.h"
+#include "KioskView.h"
 
 static uid_t stringToUid(const char *s)
 {
@@ -131,8 +132,16 @@ int main(int argc, char *argv[])
     settings.uid = uid;
     settings.gid = gid;
 
-    Kiosk kiosk(&settings);
-    kiosk.init();
+    QWidget w;
+    w.setGeometry(0, 0, 800, 480);
+
+    KioskView *view = new KioskView(&settings, &w);
+    view->setGeometry(0, 0, 800, 480);
+    view->setUrl(QUrl("https://nerves-hub.org/"));
+    w.showFullScreen();
+
+//    Kiosk kiosk(&settings);
+//    kiosk.init();
 
     return app.exec();
 }

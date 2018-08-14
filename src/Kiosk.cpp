@@ -43,7 +43,8 @@ void Kiosk::init()
     if (settings_->hideCursor)
         QApplication::setOverrideCursor(Qt::BlankCursor);
 
-    moveToMonitor();
+    completeInit();
+    //moveToMonitor();
     if (settings_->fullscreen) {
         window_->showFullScreen();
     } else {
@@ -53,7 +54,7 @@ void Kiosk::init()
 
     // Do the heavy lifting of starting up the webbrowser on the next
     // pass through the event loop.
-    QTimer::singleShot(100, this, SLOT(completeInit()));
+    //QTimer::singleShot(100, this, SLOT(completeInit()));
 }
 
 void Kiosk::completeInit()
@@ -63,7 +64,7 @@ void Kiosk::completeInit()
     connect(coms_, SIGNAL(messageReceived(KioskMessage)), SLOT(handleRequest(KioskMessage)));
 
     // Start the browser up
-    view_ = new KioskView(settings_);
+    view_ = new KioskView(settings_, window_);
     view_->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, settings_->javascriptEnabled);
     view_->settings()->setAttribute(QWebEngineSettings::JavascriptCanOpenWindows, settings_->javascriptCanOpenWindows);
 
@@ -72,6 +73,7 @@ void Kiosk::completeInit()
     connect(view_, SIGNAL(loadProgress(int)), SLOT(setProgress(int)));
     connect(view_, SIGNAL(loadFinished(bool)), SLOT(finishLoading()));
     window_->setView(view_);
+    window_->showFullScreen();
     view_->load(settings_->homepage);
 }
 
