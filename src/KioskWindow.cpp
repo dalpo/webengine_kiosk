@@ -53,14 +53,14 @@ KioskWindow::~KioskWindow()
 void KioskWindow::setView(KioskView *view)
 {
     view_ = view;
-    //view_->setVisible(showingBrowser_);
+    view_->setVisible(showingBrowser_);
     //view_->setParent(this);
-    //view_->stackUnder(progress_);
+    view_->stackUnder(progress_);
     QSize sz = size();
     view_->setGeometry(0, 0, sz.width(), sz.height());
     if (showingBrowser_) {
-        //view_->setEnabled(true);
-        //view_->setFocus();
+        view_->setEnabled(true);
+        view_->setFocus();
     }
 }
 

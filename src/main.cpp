@@ -132,18 +132,8 @@ int main(int argc, char *argv[])
     settings.uid = uid;
     settings.gid = gid;
 
-#if 0
-    QWidget w;
-    w.setGeometry(0, 0, 800, 480);
-
-    KioskView *view = new KioskView(&settings, &w);
-    view->setGeometry(0, 0, 800, 480);
-    view->setUrl(QUrl("https://nerves-hub.org/"));
-    w.showFullScreen();
-#else
     Kiosk kiosk(&settings);
     kiosk.init();
-#endif
 
     return app.exec();
 }
