@@ -18,13 +18,13 @@ KioskWindow::KioskWindow(Kiosk *kiosk, const KioskSettings *settings) :
     setMinimumWidth(320);
     setMinimumHeight(200);
 
+#if 0
     QAction* tempAction = new QAction(this);
     tempAction->setShortcut(QKeySequence::Quit);
     tempAction->setShortcutContext(Qt::ApplicationShortcut);
     connect(tempAction, SIGNAL(triggered(bool)), qApp, SLOT(quit()));
     addAction(tempAction);
 
-#if 0
     if (settings->debugMenuEnabled) {
         QMenu *debugMenu = menuBar()->addMenu(tr("&Debug"));
         QAction *action = new QAction(tr("Run &Javascript"), this);
@@ -45,7 +45,7 @@ void KioskWindow::setView(KioskView *view)
 {
     view_ = view;
     //view_->setVisible(showingBrowser_);
-    view_->setParent(this);
+    //view_->setParent(this);
     //view_->stackUnder(progress_);
     QSize sz = size();
     view_->setGeometry(0, 0, sz.width(), sz.height());
@@ -92,7 +92,8 @@ void KioskWindow::hideBrowser()
 void KioskWindow::resizeEvent(QResizeEvent *event)
 {
     Q_UNUSED(event);
-
+    qDebug("KioskWindow::resizeEvent %d, %d -> %d, %d", event->oldSize().width(), event->oldSize().height(),
+           event->size().width(), event->size().height());
 #if 0
     QSize sz = centralWidget()->size();
 
