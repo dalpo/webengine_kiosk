@@ -11,6 +11,10 @@ class KioskProgress;
 class KioskView;
 class Blanking;
 
+// NOTE: This is not a QMainWindow even though that would make a lot of sense.
+//       For unknown reasons, QMainWindow and QWebEngineView interact in some
+//       way that makes touch events not work on the Raspberry Pi.
+
 class KioskWindow : public QWidget
 {
     Q_OBJECT

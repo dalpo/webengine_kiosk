@@ -15,7 +15,7 @@ KioskView::KioskView(const KioskSettings *settings, QWidget* parent): QWebEngine
     page()->setZoomFactor(settings_->zoomFactor);
     page()->setBackgroundColor(settings_->backgroundColor);
 
-    //setFocusPolicy(Qt::StrongFocus);
+    setFocusPolicy(Qt::StrongFocus);
     setContextMenuPolicy(Qt::PreventContextMenu);
 
     QApplication::instance()->installEventFilter(this);

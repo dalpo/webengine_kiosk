@@ -27,13 +27,13 @@ KioskWindow::KioskWindow(Kiosk *kiosk, const KioskSettings *settings) :
     progress_ = new KioskProgress(this);
     progress_->hide();
 
-#if 0
     QAction* tempAction = new QAction(this);
     tempAction->setShortcut(QKeySequence::Quit);
     tempAction->setShortcutContext(Qt::ApplicationShortcut);
     connect(tempAction, SIGNAL(triggered(bool)), qApp, SLOT(quit()));
     addAction(tempAction);
 
+#if 0
     if (settings->debugMenuEnabled) {
         QMenu *debugMenu = menuBar()->addMenu(tr("&Debug"));
         QAction *action = new QAction(tr("Run &Javascript"), this);
@@ -100,9 +100,6 @@ void KioskWindow::hideBrowser()
 
 void KioskWindow::resizeEvent(QResizeEvent *event)
 {
-    qDebug("KioskWindow::resizeEvent %d, %d -> %d, %d", event->oldSize().width(), event->oldSize().height(),
-           event->size().width(), event->size().height());
-
     QSize sz = event->size();
     blank_->setGeometry(0, 0, sz.width(), sz.height());
     if (view_)
@@ -126,7 +123,7 @@ void KioskWindow::doGotoURLDialog()
 {
     bool ok;
     QString uri = QInputDialog::getText(this, tr("Kiosk"),
-                                         tr("Enter a URL:"), QLineEdit::Normal, "https://youtube.com/", &ok);
+                                         tr("Enter a URL:"), QLineEdit::Normal, "https://elixir-lang.org/", &ok);
     if (ok && !uri.isEmpty())
         kiosk_->goToUrl(uri);
 }
