@@ -7,6 +7,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QInputDialog>
+#include <QApplication>
 
 KioskWindow::KioskWindow(Kiosk *kiosk, const KioskSettings *settings) :
     QWidget(),

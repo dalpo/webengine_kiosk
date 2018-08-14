@@ -37,9 +37,6 @@ private slots:
     void doGotoURLDialog();
 
 private:
-    int computedScreen();
-
-private:
     Kiosk *kiosk_;
     const KioskSettings *settings_;
 

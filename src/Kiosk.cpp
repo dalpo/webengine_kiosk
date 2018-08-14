@@ -20,6 +20,7 @@ Kiosk::Kiosk(const KioskSettings *settings, QObject *parent) :
 {
     // Set up the UI
     window_ = new KioskWindow(this, settings);
+    window_->setGeometry(calculateWindowRect());
 }
 
 void Kiosk::init()
@@ -44,13 +45,11 @@ void Kiosk::init()
         QApplication::setOverrideCursor(Qt::BlankCursor);
 
     completeInit();
-    //moveToMonitor();
-    if (settings_->fullscreen) {
+
+    if (settings_->fullscreen)
         window_->showFullScreen();
-    } else {
+    else
         window_->show();
-        window_->resize(settings_->width, settings_->height);
-    }
 
     // Do the heavy lifting of starting up the webbrowser on the next
     // pass through the event loop.
@@ -155,12 +154,22 @@ void Kiosk::urlChanged(const QUrl &url)
     view_->playSound(settings_->linkClickedSound);
 }
 
-void Kiosk::moveToMonitor()
+QRect Kiosk::calculateWindowRect() const
 {
     QList<QScreen*> screens = QApplication::screens();
-    if (settings_->monitor >= 0 && settings_->monitor < screens.length()) {
-        QRect screenRect = screens.at(settings_->monitor)->geometry();
-        if (!screenRect.contains(window_->geometry()))
-            window_->move(screenRect.x(), screenRect.y());
+    int screenToUse = 0;
+    if (settings_->monitor >= 0 && settings_->monitor < screens.length())
+        screenToUse = settings_->monitor;
+
+    QRect screenRect = screens.at(screenToUse)->geometry();
+
+    if (settings_->fullscreen) {
+        return screenRect;
+    } else {
+        int windowWidth = qMax(320, qMin(screenRect.width(), settings_->width));
+        int windowHeight = qMax(240, qMin(screenRect.height(), settings_->height));
+        int offsetX = (screenRect.width() - windowWidth) / 2;
+        int offsetY = (screenRect.height() - windowHeight) / 2;
+        return QRect(screenRect.x() + offsetX, screenRect.y() + offsetY, windowWidth, windowHeight);
     }
 }
