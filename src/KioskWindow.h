@@ -40,8 +40,8 @@ private:
     Kiosk *kiosk_;
     const KioskSettings *settings_;
 
-//    KioskProgress *progress_;
-//    Blanking *blank_;
+    KioskProgress *progress_;
+    Blanking *blank_;
     KioskView *view_;
 
     bool showingBrowser_;

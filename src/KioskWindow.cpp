@@ -19,6 +19,14 @@ KioskWindow::KioskWindow(Kiosk *kiosk, const KioskSettings *settings) :
     setMinimumWidth(320);
     setMinimumHeight(200);
 
+    blank_ = new Blanking(this);
+    blank_->setStyleSheet(QString("background: %1").arg(settings->backgroundColor.name()));
+    if (!settings->blankImage.isEmpty())
+        blank_->setPixmap(settings->blankImage);
+
+    progress_ = new KioskProgress(this);
+    progress_->hide();
+
 #if 0
     QAction* tempAction = new QAction(this);
     tempAction->setShortcut(QKeySequence::Quit);
@@ -62,7 +70,7 @@ void KioskWindow::setBrowserVisible(bool enabled)
     if (view_) {
         view_->setVisible(enabled);
         view_->setEnabled(enabled);
-//        blank_->setEnabled(!enabled);
+        blank_->setEnabled(!enabled);
         if (enabled) {
             view_->setFocus();
         }
@@ -71,13 +79,13 @@ void KioskWindow::setBrowserVisible(bool enabled)
 
 void KioskWindow::showProgress(int percent)
 {
-//    progress_->setProgress(percent);
- //   progress_->show();
+    progress_->setProgress(percent);
+    progress_->show();
 }
 
 void KioskWindow::hideProgress()
 {
-  //  progress_->hide();
+    progress_->hide();
 }
 
 void KioskWindow::showBrowser()
