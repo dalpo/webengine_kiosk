@@ -3,8 +3,7 @@
 
 #include <QtWebEngineWidgets/QWebEnginePage>
 #include <QtWebEngineWidgets/QWebEngineView>
-
-#include <qplayer.h>
+#include "qplayer.h"
 
 struct KioskSettings;
 
@@ -21,7 +20,6 @@ public:
 
 protected:
     bool eventFilter(QObject *object, QEvent *event);
-    void mousePressEvent(QMouseEvent *event);
 
 private slots:
     void handleWindowCloseRequested();

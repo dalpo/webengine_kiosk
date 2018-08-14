@@ -100,12 +100,10 @@ void KioskWindow::hideBrowser()
 
 void KioskWindow::resizeEvent(QResizeEvent *event)
 {
-    Q_UNUSED(event);
     qDebug("KioskWindow::resizeEvent %d, %d -> %d, %d", event->oldSize().width(), event->oldSize().height(),
            event->size().width(), event->size().height());
-#if 0
-    QSize sz = centralWidget()->size();
 
+    QSize sz = event->size();
     blank_->setGeometry(0, 0, sz.width(), sz.height());
     if (view_)
         view_->setGeometry(0, 0, sz.width(), sz.height());
@@ -113,7 +111,6 @@ void KioskWindow::resizeEvent(QResizeEvent *event)
     int x = (sz.width() - progress_->width()) / 2;
     int y = (sz.height() - progress_->height()) / 2;
     progress_->setGeometry(x, y, progress_->width(), progress_->height());
-#endif
 }
 
 void KioskWindow::doRunJavascriptDialog()

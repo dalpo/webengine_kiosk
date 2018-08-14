@@ -16,9 +16,9 @@ KioskView::KioskView(const KioskSettings *settings, QWidget* parent): QWebEngine
     page()->setBackgroundColor(settings_->backgroundColor);
 
     //setFocusPolicy(Qt::StrongFocus);
-    //setContextMenuPolicy(Qt::PreventContextMenu);
+    setContextMenuPolicy(Qt::PreventContextMenu);
 
-    //QApplication::instance()->installEventFilter(this);
+    QApplication::instance()->installEventFilter(this);
 }
 
 void KioskView::handleWindowCloseRequested()
@@ -37,15 +37,6 @@ void KioskView::handleWindowCloseRequested()
 #endif
 }
 
-void KioskView::mousePressEvent(QMouseEvent *event)
-{
-    qDebug("KioskView::mousePressEvent!");
-    if (event->button() == Qt::LeftButton)
-        playSound(settings_->windowClickedSound);
-
-    QWebEngineView::mousePressEvent(event);
-}
-
 void KioskView::playSound(const QUrl &sound)
 {
     if (player_)
@@ -55,7 +46,19 @@ void KioskView::playSound(const QUrl &sound)
 bool KioskView::eventFilter(QObject *object, QEvent *event)
 {
     Q_UNUSED(object);
-    qDebug("got event %d", event->type());
+
+    // See https://bugreports.qt.io/browse/QTBUG-43602 for mouse events
+    // seemingly not working with QWebEngineView.
+    switch (event->type()) {
+    case QEvent::MouseButtonPress:
+    case QEvent::TouchBegin:
+        playSound(settings_->windowClickedSound);
+        break;
+
+    default:
+        break;
+    }
+
     return false;
 }
 
